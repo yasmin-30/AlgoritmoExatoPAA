@@ -1,0 +1,7 @@
+# Ignorar executáveis e binários
+*.exe
+mTSP-DS
+mTSP-DS.exe
+
+# Ignorar pasta .vscode 
+.vscode/
