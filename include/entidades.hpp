@@ -19,6 +19,7 @@ struct EstacaoDrone {
     Coordenada posicao;
     int alcance;
     bool ativado;
+    int qntDrones;
 };
 
 struct Deposito {
@@ -29,6 +30,7 @@ struct Deposito {
 struct RotaCaminhao {
     int id;
     std::vector<int> sequenciaNos;
+    std::vector<int> estacoesVisitadas;
     double tempoViagem;
 };
 

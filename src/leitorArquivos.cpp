@@ -11,8 +11,6 @@
 
 namespace {
 
-// Troca "\\" por "/" (o Windows tambem aceita "/", entao o resultado serve
-// para os dois sistemas).
 std::string normalizarSeparadores(std::string caminho) {
     std::replace(caminho.begin(), caminho.end(), '\\', '/');
     return caminho;
@@ -20,20 +18,19 @@ std::string normalizarSeparadores(std::string caminho) {
 
 bool arquivoLegivel(const std::string& caminho) {
     std::ifstream arquivo(caminho.c_str());
-    // peek() falha em diretorios (o ifstream abre diretorios no Linux)
     return arquivo.is_open() &&
            arquivo.peek() != std::ifstream::traits_type::eof();
 }
 
-}  // namespace
+}  
 
 bool resolverCaminhoInstancia(const std::string& entrada, std::string& caminhoResolvido) {
     const std::string caminho = normalizarSeparadores(entrada);
 
     const std::vector<std::string> candidatos = {
-        caminho,                          // como digitado (absoluto ou relativo)
-        "instancias/" + caminho,          // ex.: clustered/X.mtspds
-        "../instancias/" + caminho        // executando a partir de uma subpasta
+        caminho,                         
+        "instancias/" + caminho,       
+        "../instancias/" + caminho        
     };
 
     for (const std::string& candidato : candidatos) {
@@ -110,8 +107,7 @@ bool lerInstancia(const std::string& caminhoArquivo, Instancia& instancia) {
     instancia.clientes.clear();
     instancia.estacoes.clear();
 
-    // 1. Resolve o caminho (aceita "clustered\\X.mtspds", "scattered/X.mtspds",
-    //    caminhos completos, etc.) e abre o arquivo
+    // 1. Resolve o caminho 
     std::string caminhoReal;
     if (!resolverCaminhoInstancia(caminhoArquivo, caminhoReal)) {
         return false;
