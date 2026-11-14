@@ -3,39 +3,51 @@
 
 #include <cmath>
 #include <iostream>
-
-// OBS: Checar se o drone só pode visitar um cliente e tem que voltar pra estação ou se pode 
-// entregar mais de um pacote na definicao do problema
+#include <algorithm>
 
 // Construtor 
 SolExata::SolExata(const Instancia& instancia, double fatorVelocidadeDrone, int qntDrones) : 
                     instancia_(instancia), fatorVelocidadeDrone_(fatorVelocidadeDrone), dronesPorEstacao_(qntDrones) {}
 
-
 // Calcula a distancia entre dois nós
 double SolExata::calcularDistancia(Coordenada c1, Coordenada c2) const {
-    return std::sqrt(std::pow(c1.x - c2.x, 2) + std::pow(c1.y - c2.y, 2));
+    double dx = c1.x - c2.x;
+    double dy = c1.y - c2.y;
+    return std::sqrt(dx * dx + dy * dy);
 }
 
 // Calcula o custo total de uma rota de caminhao
 double SolExata::calcularCustoRotaCaminhao(const RotaCaminhao& rota) const {
-    if(rota.sequenciaNos.empty() && rota.estacoesVisitadas.empty()) return 0;
+    if(rota.sequenciaNos.empty() && rota.estacoesVisitadas.empty()) return 0.0;
 
-    double custoTotal = 0;
+    double custoTotal = 0.0;
     Coordenada posicaoAtual = instancia_.deposito.posicao;
 
-    // O caminhao passa pelas estacoes de drone que ele vai ativar
+    // O caminhão passa pelas estações de drone que ele vai ativar
+    int totalEstacoesInstancia = (int)instancia_.estacoes.size();
     for (int idEstacao : rota.estacoesVisitadas) {
-        Coordenada posEstacao = instancia_.estacoes[idEstacao].posicao;
-        custoTotal += calcularDistancia(posicaoAtual, posEstacao);
-        posicaoAtual = posEstacao;
+        if (idEstacao >= 0 && idEstacao < totalEstacoesInstancia) {
+            Coordenada posEstacao = instancia_.estacoes[idEstacao].posicao;
+            custoTotal += calcularDistancia(posicaoAtual, posEstacao);
+            posicaoAtual = posEstacao;
+        }
     }
 
     // Atende os clientes na sequencia da rota
     for (int idCliente : rota.sequenciaNos) {
-        Coordenada posCliente = instancia_.clientes[idCliente].posicao;
-        custoTotal += calcularDistancia(posicaoAtual, posCliente);
-        posicaoAtual = posCliente;
+        Coordenada posCliente = {0.0, 0.0};
+        bool encontrado = false;
+        for (const auto& cli : instancia_.clientes) {
+            if (cli.idCliente == idCliente) {
+                posCliente = cli.posicao;
+                encontrado = true;
+                break;
+            }
+        }
+        if (encontrado) {
+            custoTotal += calcularDistancia(posicaoAtual, posCliente);
+            posicaoAtual = posCliente;
+        }
     }
 
     // Retorna ao deposito
@@ -44,12 +56,14 @@ double SolExata::calcularCustoRotaCaminhao(const RotaCaminhao& rota) const {
     return custoTotal;
 }
 
-// Entrega por Caminhao (modularizar!!!)
+// Processamento de opções de Caminhão
 void SolExata::processarOpcoesCaminhao(EstadoBusca& estado, Solucao& melhorSolucao, double& melhorMakespan) {
     int clienteAtual = estado.clienteAtual;
+    int totalRotas = (int)estado.solucaoParcial.rotasCaminhoes.size();
+    int totalEstacoes = (int)instancia_.estacoes.size();
 
-    // Testa atender o cliente atual por meio de um caminhão que já possui rota ativa
-    for (int i = 0; i < estado.solucaoParcial.rotasCaminhoes.size(); ++i) {
+    // 1a opção: Atender clientes na rota já existente
+    for (int i = 0; i < totalRotas; ++i) {
         std::vector<bool> visitadosCaminhao = estado.visitados;
         visitadosCaminhao[clienteAtual] = true;
 
@@ -59,16 +73,19 @@ void SolExata::processarOpcoesCaminhao(EstadoBusca& estado, Solucao& melhorSoluc
         estado.solucaoParcial.rotasCaminhoes[i].tempoViagem = novoCustoRota;
 
         double makespanGlobalTemp = 0.0;
-        // Pegamos a rota mais longa para ser o makespan, pois os automoveis trabalham em paralelo
         for(const auto& rota : estado.solucaoParcial.rotasCaminhoes) {
             if (rota.tempoViagem > makespanGlobalTemp) makespanGlobalTemp = rota.tempoViagem;
         }
         makespanGlobalTemp = std::max(estado.makespanAtual, makespanGlobalTemp);
 
-        // Avanca para o proximo cliente
         EstadoBusca proximoEstado = {
-            clienteAtual + 1, visitadosCaminhao, estado.caminhoesEmUso, estado.estacoesAtivadas, 
-            estado.dronesEmUsoPorEstacao, makespanGlobalTemp, estado.solucaoParcial
+            clienteAtual + 1,
+            visitadosCaminhao,
+            estado.caminhoesEmUso,
+            estado.estacoesAtivadas,
+            estado.dronesEmUsoPorEstacao,
+            makespanGlobalTemp,
+            estado.solucaoParcial
         };
 
         branchAndBound(proximoEstado, melhorSolucao, melhorMakespan);
@@ -78,9 +95,9 @@ void SolExata::processarOpcoesCaminhao(EstadoBusca& estado, Solucao& melhorSoluc
         estado.solucaoParcial.rotasCaminhoes[i].tempoViagem = tempoAntigo;
     }
 
-    // Testa passar por uma estacao de drone durante as entregas
-    for (int i = 0; i < instancia_.estacoes.size(); ++i) {
-        for (int j = 0; j < estado.solucaoParcial.rotasCaminhoes.size(); ++j) {
+    // 2a opção: Ativar estação e atender clientes
+    for (int i = 0; i < totalEstacoes; ++i) {
+        for (int j = 0; j < totalRotas; ++j) {
             std::vector<bool> visitadosCaminhao = estado.visitados;
             visitadosCaminhao[clienteAtual] = true;
 
@@ -92,7 +109,7 @@ void SolExata::processarOpcoesCaminhao(EstadoBusca& estado, Solucao& melhorSoluc
             estado.solucaoParcial.rotasCaminhoes[j].tempoViagem = novoCustoRota;
 
             std::vector<bool> novasEstacoesAtivadas = estado.estacoesAtivadas;
-            novasEstacoesAtivadas[i] = true;
+            novasEstacoesAtivadas[i] = true; 
 
             double makespanGlobalTemp = 0.0;
             for(const auto& rota : estado.solucaoParcial.rotasCaminhoes) {
@@ -101,8 +118,13 @@ void SolExata::processarOpcoesCaminhao(EstadoBusca& estado, Solucao& melhorSoluc
             makespanGlobalTemp = std::max(estado.makespanAtual, makespanGlobalTemp);
 
             EstadoBusca proximoEstado = {
-                clienteAtual + 1, visitadosCaminhao, estado.caminhoesEmUso, novasEstacoesAtivadas, 
-                estado.dronesEmUsoPorEstacao, makespanGlobalTemp, estado.solucaoParcial
+                clienteAtual + 1,
+                visitadosCaminhao,
+                estado.caminhoesEmUso,
+                novasEstacoesAtivadas,
+                estado.dronesEmUsoPorEstacao,
+                makespanGlobalTemp,
+                estado.solucaoParcial
             };
 
             branchAndBound(proximoEstado, melhorSolucao, melhorMakespan);
@@ -114,7 +136,7 @@ void SolExata::processarOpcoesCaminhao(EstadoBusca& estado, Solucao& melhorSoluc
         }
     }
 
-    // Testa abrir uma nova rota
+    // 3a opção: Abrir nova rota para o caminhão explorar
     if (estado.caminhoesEmUso < instancia_.deposito.qntCaminhoes) {
         std::vector<bool> visitadosCaminhao = estado.visitados;
         visitadosCaminhao[clienteAtual] = true;
@@ -129,8 +151,13 @@ void SolExata::processarOpcoesCaminhao(EstadoBusca& estado, Solucao& melhorSoluc
         double novoMakespan = std::max(estado.makespanAtual, novaRota.tempoViagem);
 
         EstadoBusca proximoEstado = {
-            clienteAtual + 1, visitadosCaminhao, estado.caminhoesEmUso + 1, estado.estacoesAtivadas, 
-            estado.dronesEmUsoPorEstacao, novoMakespan, estado.solucaoParcial
+            clienteAtual + 1,
+            visitadosCaminhao,
+            estado.caminhoesEmUso + 1,
+            estado.estacoesAtivadas,
+            estado.dronesEmUsoPorEstacao,
+            novoMakespan,
+            estado.solucaoParcial
         };
 
         branchAndBound(proximoEstado, melhorSolucao, melhorMakespan);
@@ -139,16 +166,18 @@ void SolExata::processarOpcoesCaminhao(EstadoBusca& estado, Solucao& melhorSoluc
     }
 }
 
-// Entrega por Drone
+// Processamento de opções de Drone
 void SolExata::processarOpcoesDrone(EstadoBusca& estado, Solucao& melhorSolucao, double& melhorMakespan) {
     int clienteAtual = estado.clienteAtual;
     double velocidadeCaminhao = 1.0; 
+    int totalEstacoes = (int)instancia_.estacoes.size();
 
-    for(int i = 0; i < instancia_.estacoes.size(); ++i) {
+    for (int i = 0; i < totalEstacoes; ++i) {
         double distEstacaoCliente = calcularDistancia(instancia_.estacoes[i].posicao, instancia_.clientes[clienteAtual].posicao);
         
-        // Verifica se a estacao esta ativada, se esta dentro do raio de alcance e se há drone disponivel para realizar a entrega
-        if(estado.estacoesAtivadas[i] && distEstacaoCliente <= instancia_.raio && estado.dronesEmUsoPorEstacao[i] < dronesPorEstacao_) {
+        // Verifica ativação, raio de alcance e capacidade de drones na estação
+        if (estado.estacoesAtivadas[i] && distEstacaoCliente <= (double)instancia_.raio && estado.dronesEmUsoPorEstacao[i] < dronesPorEstacao_) {
+            
             std::vector<bool> visitadosDrone = estado.visitados;
             visitadosDrone[clienteAtual] = true;
             
@@ -161,8 +190,13 @@ void SolExata::processarOpcoesDrone(EstadoBusca& estado, Solucao& melhorSolucao,
             estado.solucaoParcial.atendimentoDrones.push_back({i, clienteAtual});
             
             EstadoBusca proximoEstado = {
-                clienteAtual + 1, visitadosDrone, estado.caminhoesEmUso, estado.estacoesAtivadas, 
-                novoDronesEmUso, novoMakespanDrone, estado.solucaoParcial
+                clienteAtual + 1,
+                visitadosDrone,
+                estado.caminhoesEmUso,
+                estado.estacoesAtivadas,
+                novoDronesEmUso,
+                novoMakespanDrone,
+                estado.solucaoParcial
             };
 
             branchAndBound(proximoEstado, melhorSolucao, melhorMakespan);
@@ -172,17 +206,18 @@ void SolExata::processarOpcoesDrone(EstadoBusca& estado, Solucao& melhorSolucao,
     }
 }
 
-// Implementacao do Branch and Bound
+// Função principal de Branch and Bound
 void SolExata::branchAndBound(EstadoBusca& estado, Solucao& melhorSolucao, double& melhorMakespan) {
-    
-    // Poda
-    if(estado.makespanAtual >= melhorMakespan) {
+    // Poda por bound
+    if (estado.makespanAtual >= melhorMakespan) {
         return;
     }
 
-    // Atualiza melhor makespan
-    if(estado.clienteAtual == instancia_.clientes.size()) {
-        if(estado.makespanAtual < melhorMakespan) {
+    int totalClientes = (int)instancia_.clientes.size();
+
+    // Condição de parada: todos os clientes foram avaliados
+    if (estado.clienteAtual >= totalClientes) {
+        if (estado.makespanAtual < melhorMakespan) {
             melhorMakespan = estado.makespanAtual;
             melhorSolucao = estado.solucaoParcial;
         }
@@ -190,31 +225,41 @@ void SolExata::branchAndBound(EstadoBusca& estado, Solucao& melhorSolucao, doubl
     }
 
     // Pula clientes que já foram visitados
-    if(estado.visitados[estado.clienteAtual]) {
+    if (estado.visitados[estado.clienteAtual]) {
         estado.clienteAtual++;
         branchAndBound(estado, melhorSolucao, melhorMakespan);
+        estado.clienteAtual--;
         return;
     }
 
+    // Explora as ramificações de caminhões e drones
     processarOpcoesCaminhao(estado, melhorSolucao, melhorMakespan);
     processarOpcoesDrone(estado, melhorSolucao, melhorMakespan);    
 }
 
-// Chama o branch and bound e retorna a solução
-bool SolExata::resolver(Solucao& melhorSolucao, double upperBoundInicial = INFINITY) {
-    int totalClientes = instancia_.clientes.size();
-    int totalEstacoes = instancia_.estacoes.size();
+// Método inicializador do solver
+bool SolExata::resolver(Solucao& melhorSolucao, double upperBoundInicial) {
+    int totalClientes = (int)instancia_.clientes.size();
+    int totalEstacoes = (int)instancia_.estacoes.size();
     
     EstadoBusca estadoInicial;
+    estadoInicial.visitados.assign(totalClientes, false);
+    estadoInicial.estacoesAtivadas.assign(totalEstacoes, false);
+    estadoInicial.dronesEmUsoPorEstacao.assign(totalEstacoes, 0);
+    estadoInicial.clienteAtual = 0;
+    estadoInicial.makespanAtual = 0.0;
+    
+    // Inicializa a solução parcial com a da heurística passada como Upper Bound
+    estadoInicial.solucaoParcial = melhorSolucao;
     
     double melhorMakespan = upperBoundInicial;
     
-    std::cout << "Iniciando Branch and Bound...\n";
+    std::cout << "[SolExata] Iniciando Branch and Bound com UB = " << melhorMakespan << "...\n";
     
     branchAndBound(estadoInicial, melhorSolucao, melhorMakespan);
 
     if (melhorMakespan >= upperBoundInicial) {
-        std::cerr << "Nenhuma solução viável encontrada.\n";
+        std::cout << "[SolExata] O exato não encontrou melhora estrita. Mantendo o resultado da heurística.\n";
         return false;
     }
 

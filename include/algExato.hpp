@@ -9,7 +9,7 @@ class SolExata {
 
     public:
         // Construtor
-        SolExata(const Instancia& instancia, double fatorVelocidadeDrone = 1.0, int dronesPorEstacao);
+        SolExata(const Instancia& instancia, double fatorVelocidadeDrone = 1.0, int dronesPorEstacao = 2);
 
         // Executa o Branch and Bound para encontrar a solucao otima
         bool resolver(Solucao& melhorSolucao, double upperBoundInicial = INFINITY);
@@ -20,15 +20,13 @@ class SolExata {
         int dronesPorEstacao_;
 
         struct EstadoBusca {
-            int clienteAtual; 
-            const std::vector<bool> visitados; 
-            int caminhoesEmUso; 
+            int clienteAtual = 0;
+            std::vector<bool> visitados;
+            int caminhoesEmUso = 0;
             std::vector<bool> estacoesAtivadas;
-            const std::vector<int> dronesEmUsoPorEstacao;
-            double makespanAtual;
+            std::vector<int> dronesEmUsoPorEstacao;
+            double makespanAtual = 0.0;
             Solucao solucaoParcial;
-
-            EstadoBusca() = default;
         };
                 
         void branchAndBound(EstadoBusca& estado, Solucao& melhorSolucao, double& melhorMakespan);
