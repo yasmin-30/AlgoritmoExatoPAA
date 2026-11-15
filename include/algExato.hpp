@@ -12,7 +12,7 @@ class SolExata {
         SolExata(const Instancia& instancia, double fatorVelocidadeDrone = 1.0, int dronesPorEstacao = 2);
 
         // Limite de tempo de 10 min
-        bool resolver(Solucao& melhorSolucao, double upperBoundInicial, double limiteTempoSegundos = 600.0);
+        bool resolver(Solucao& melhorSolucao, double upperBoundInicial, double limiteTempoSegundos = 120.0);
 
     private:
         Instancia instancia_;
@@ -42,7 +42,12 @@ class SolExata {
         void processarOpcoesDrone(EstadoBusca& estado, Solucao& melhorSolucao, double& melhorMakespan);
         
         double calcularDistancia(Coordenada c1, Coordenada c2) const;
+
+        // Funções Caminhão
         double calcularCustoRotaCaminhao(const RotaCaminhao& rota) const;
+        void processarOpcaoCaminhaoExistente(EstadoBusca& estado, Solucao& melhorSolucao, double& melhorMakespan, int clienteAtual, int i);
+        void processarOpcaoAtivarEstacao(EstadoBusca& estado, Solucao& melhorSolucao, double& melhorMakespan, int clienteAtual, int estacao, int rotaIdx);
+        void processarOpcaoNovaRota(EstadoBusca& estado, Solucao& melhorSolucao, double& melhorMakespan, int clienteAtual);
 
         // Métodos do Lower Bound
         void precalcularCustosMinimos();
