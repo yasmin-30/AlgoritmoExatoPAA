@@ -1,6 +1,7 @@
 #include "algExato.hpp"
 #include "leitorArquivos.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <limits>
 
@@ -11,7 +12,7 @@ double SolExata::calcularDistancia(Coordenada c1, Coordenada c2) const {
     return std::sqrt(dx * dx + dy * dy);
 }
 
-// Calcula a menor contribuição possível de cada cliente
+// Calcula o menor tempo possível para atender cada cliente (limite inferior individual)
 void SolExata::precalcularCustosMinimos() {
     int totalClientes = (int)instancia_.clientes.size();
     int totalEstacoes = (int)instancia_.estacoes.size();
@@ -19,31 +20,16 @@ void SolExata::precalcularCustosMinimos() {
 
     for (int i = 0; i < totalClientes; ++i) {
         Coordenada posCli = instancia_.clientes[i].posicao;
-        double menorCusto = std::numeric_limits<double>::max();
 
-        // Calcula a distância de um cliente até outro ponto (cliente, depósito ou estação)
-        double distDeposito = calcularDistancia(posCli, instancia_.deposito.posicao);
-        if (distDeposito < menorCusto) menorCusto = distDeposito;
+        double menorCusto = 2.0 * calcularDistancia(posCli, instancia_.deposito.posicao);
 
-        for (int j = 0; j < totalClientes; ++j) {
-            if (i == j) continue;
-            double d = calcularDistancia(posCli, instancia_.clientes[j].posicao);
-            if (d < menorCusto) menorCusto = d;
-        }
-
-        for (int e = 0; e < totalEstacoes; ++e) {
-            double d = calcularDistancia(posCli, instancia_.estacoes[e].posicao);
-            if (d < menorCusto) menorCusto = d;
-        }
-
-        // Calcula o custo para atender cliente por drone (se estiver dentro do raio)
-        for (int e = 0; e < totalEstacoes; ++e) {
-            double distEstacao = calcularDistancia(posCli, instancia_.estacoes[e].posicao);
-            if (distEstacao <= (double)instancia_.raio && dronesPorEstacao_ > 0) {
-                // Tempo de ida e volta do drone
-                double tempoDrone = (2.0 * distEstacao) / (1.0 * fatorVelocidadeDrone_);
-                if (tempoDrone < menorCusto) {
-                    menorCusto = tempoDrone;
+        // Atendimento por drone
+        if (dronesPorEstacao_ > 0) {
+            for (int e = 0; e < totalEstacoes; ++e) {
+                double distEstacao = calcularDistancia(posCli, instancia_.estacoes[e].posicao);
+                if (distEstacao <= (double)instancia_.raio) {
+                    double tempoDrone = (2.0 * distEstacao) / fatorVelocidadeDrone_;
+                    if (tempoDrone < menorCusto) menorCusto = tempoDrone;
                 }
             }
         }
@@ -55,40 +41,19 @@ void SolExata::precalcularCustosMinimos() {
 // Calcula o Lower Bound
 double SolExata::calcularLowerBound(const EstadoBusca& estado) const {
     int totalClientes = (int)instancia_.clientes.size();
-    int qntCaminhoes = instancia_.deposito.qntCaminhoes;
 
-    double somaTrabalhoRestante = 0.0;
     double maiorCustoIsolado = 0.0;
-
     for (int i = 0; i < totalClientes; ++i) {
         if (!estado.visitados[i]) {
-            double c = custoMinimoCliente_[i];
-            somaTrabalhoRestante += c;
-            if (c > maiorCustoIsolado) {
-                maiorCustoIsolado = c;
-            }
+            maiorCustoIsolado = std::max(maiorCustoIsolado, custoMinimoCliente_[i]);
         }
     }
 
-    // Tempo já gasto somado ao custo restante dividido entre os caminhões disponíveis
-    double somaTemposAtuais = 0.0;
-    for (const auto& rota : estado.solucaoParcial.rotasCaminhoes) {
-        somaTemposAtuais += rota.tempoViagem;
-    }
-
-    double lbMediaFrota = 0.0;
-    if (qntCaminhoes > 0) {
-        lbMediaFrota = (somaTemposAtuais + somaTrabalhoRestante) / (double)qntCaminhoes;
-    }
-
-    // Identifica o cliente mais caro
-    double lbGargalo = std::max(estado.makespanAtual, maiorCustoIsolado);
-
-    // Pegamos o máximo entre as duas estimativas 
-    return std::max(lbGargalo, lbMediaFrota);
+    return std::max(estado.makespanAtual, maiorCustoIsolado);
 }
 
-// Calcula o custo total de uma rota de caminhao
+// Calcula o custo total da rota de caminhao
+// Notação dos nós: cliente = indice + 1, estação = -(indice + 1)
 double SolExata::calcularCustoRotaCaminhao(const RotaCaminhao& rota) const {
     if (rota.sequenciaNos.empty()) return 0.0;
 
@@ -97,31 +62,13 @@ double SolExata::calcularCustoRotaCaminhao(const RotaCaminhao& rota) const {
 
     for (int no : rota.sequenciaNos) {
         Coordenada posProximo;
-
+        
         if (no > 0) {
-            // Verifica se o nó é um cliente
-            int idCliente = no;
-            bool encontrado = false;
-            for (const auto& cli : instancia_.clientes) {
-                if (cli.idCliente == idCliente) {
-                    posProximo = cli.posicao;
-                    encontrado = true;
-                    break;
-                }
-            }
-            if (!encontrado) continue; // Segurança
-        } 
-        else {
-            // Verifica se o nó é uma estação
-            int idxEstacao = (-no) - 1; 
-            if (idxEstacao >= 0 && idxEstacao < (int)instancia_.estacoes.size()) {
-                posProximo = instancia_.estacoes[idxEstacao].posicao;
-            } else {
-                continue;
-            }
+            posProximo = instancia_.clientes[no - 1].posicao;
+        } else {
+            posProximo = instancia_.estacoes[-no - 1].posicao;
         }
 
-        // Soma a distância do ponto atual até o próximo nó
         custoTotal += calcularDistancia(posicaoAtual, posProximo);
         posicaoAtual = posProximo;
     }
