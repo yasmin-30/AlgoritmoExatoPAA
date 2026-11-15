@@ -23,7 +23,7 @@ void SolExata::branchAndBound(EstadoBusca& estado, Solucao& melhorSolucao, doubl
         }
     }
 
-    // Poda
+    // Poda por Lower Bound
     double lowerBound = calcularLowerBound(estado);
     if (lowerBound >= melhorMakespan) {
         return;
@@ -31,7 +31,17 @@ void SolExata::branchAndBound(EstadoBusca& estado, Solucao& melhorSolucao, doubl
 
     int totalClientes = (int)instancia_.clientes.size();
 
-    if (estado.clienteAtual >= totalClientes) {
+    // Procura o próximo cliente que ainda não foi visitado
+    int proximoClienteNaoVisitado = -1;
+    for (int i = 0; i < totalClientes; ++i) {
+        if (!estado.visitados[i]) {
+            proximoClienteNaoVisitado = i;
+            break;
+        }
+    }
+
+    // Verifca se não há mais clientes pendentes
+    if (proximoClienteNaoVisitado == -1) {
         if (estado.makespanAtual < melhorMakespan) {
             melhorMakespan = estado.makespanAtual;
             melhorSolucao = estado.solucaoParcial;
@@ -39,15 +49,9 @@ void SolExata::branchAndBound(EstadoBusca& estado, Solucao& melhorSolucao, doubl
         return;
     }
 
-    // Pula clientes que já foram visitados
-    if (estado.visitados[estado.clienteAtual]) {
-        estado.clienteAtual++;
-        branchAndBound(estado, melhorSolucao, melhorMakespan);
-        estado.clienteAtual--;
-        return;
-    }
+    estado.clienteAtual = proximoClienteNaoVisitado;
 
-    // Explora os ramos de caminhões e drones
+    // Explora as opções de atendimento para o cliente
     processarOpcoesCaminhao(estado, melhorSolucao, melhorMakespan);
     processarOpcoesDrone(estado, melhorSolucao, melhorMakespan);    
 }
@@ -56,8 +60,7 @@ void SolExata::branchAndBound(EstadoBusca& estado, Solucao& melhorSolucao, doubl
 bool SolExata::resolver(Solucao& melhorSolucao, double upperBoundInicial, double limiteTempoSegundos) {
     int totalClientes = (int)instancia_.clientes.size();
     int totalEstacoes = (int)instancia_.estacoes.size();
-    
-    // Calcula a tabela de estimativa usada no lower bound antes de iniciar a árvore
+
     precalcularCustosMinimos();
 
     limiteTempoSegundos_ = limiteTempoSegundos;
@@ -68,23 +71,25 @@ bool SolExata::resolver(Solucao& melhorSolucao, double upperBoundInicial, double
     EstadoBusca estadoInicial;
     estadoInicial.visitados.assign(totalClientes, false);
     estadoInicial.estacoesAtivadas.assign(totalEstacoes, false);
-    estadoInicial.dronesEmUsoPorEstacao.assign(totalEstacoes, 0);
+    estadoInicial.cargaDrones.assign(totalEstacoes, std::vector<double>(dronesPorEstacao_, 0.0));
+    estadoInicial.caminhoesEmUso = 0;
     estadoInicial.clienteAtual = 0;
     estadoInicial.makespanAtual = 0.0;
-    
-    estadoInicial.solucaoParcial = melhorSolucao;
+    estadoInicial.solucaoParcial = Solucao{};
+
     double melhorMakespan = upperBoundInicial;
-    
-    std::cout << "Iniciando Branch and Bound (Limite: " << limiteTempoSegundos_ << "s) e Upper Bound = " << melhorMakespan << "...\n";
-    
+
+    std::cout << "Iniciando Branch and Bound (Limite: " << limiteTempoSegundos_
+              << "s) e Upper Bound = " << melhorMakespan << "...\n";
+
     branchAndBound(estadoInicial, melhorSolucao, melhorMakespan);
 
     if (timeoutAtingido_) {
         std::cout << "AVISO: Limite de tempo atingido! Retornando a melhor solucao obtida.\n";
     }
 
-    if (melhorMakespan >= upperBoundInicial && !timeoutAtingido_) {
-        std::cout << "O exato nao encontrou melhora estrita. Mantendo o resultado da heuristica.\n";
+    if (melhorMakespan >= upperBoundInicial) {
+        std::cout << "O exato nao encontrou melhora, mantendo o resultado da heuristica.\n";
         return false;
     }
 

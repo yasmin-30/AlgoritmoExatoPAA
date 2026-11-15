@@ -30,7 +30,7 @@ class SolExata {
             std::vector<bool> visitados;
             int caminhoesEmUso = 0;
             std::vector<bool> estacoesAtivadas;
-            std::vector<int> dronesEmUsoPorEstacao;
+            std::vector<std::vector<double>> cargaDrones;
             double makespanAtual = 0.0;
             Solucao solucaoParcial;
         };
@@ -48,6 +48,7 @@ class SolExata {
         void processarOpcaoCaminhaoExistente(EstadoBusca& estado, Solucao& melhorSolucao, double& melhorMakespan, int clienteAtual, int i);
         void processarOpcaoAtivarEstacao(EstadoBusca& estado, Solucao& melhorSolucao, double& melhorMakespan, int clienteAtual, int estacao, int rotaIdx);
         void processarOpcaoNovaRota(EstadoBusca& estado, Solucao& melhorSolucao, double& melhorMakespan, int clienteAtual);
+        double calcularMakespanParcial(const Solucao& sol, const std::vector<std::vector<double>>& carga) const;
 
         // Métodos do Lower Bound
         void precalcularCustosMinimos();
