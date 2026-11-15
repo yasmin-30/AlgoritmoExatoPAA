@@ -1,4 +1,4 @@
-#include "../include/heuristica.hpp"
+#include "heuristica.hpp"
 #include <cmath>
 #include <limits>
 #include <algorithm>

@@ -1,5 +1,5 @@
-#include "../include/execUnica.hpp"
-#include "../include/heuristica.hpp"
+#include "execUnica.hpp"
+#include "heuristica.hpp"
 
 #include <iomanip>
 #include <iostream>

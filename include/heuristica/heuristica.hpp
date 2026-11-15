@@ -2,8 +2,8 @@
 #define HEURISTICA_HPP
 #include <string>
 #include <vector>
-#include "entidades.hpp"
-#include "leitorArquivos.hpp"
+#include "../entidades.hpp"
+#include "../leitorArquivos.hpp"
 #include <utility>
 #include <unordered_map>
 
