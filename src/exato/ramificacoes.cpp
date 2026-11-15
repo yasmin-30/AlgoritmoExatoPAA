@@ -1,5 +1,5 @@
-#include "../include/algExato.hpp"
-#include "../include/leitorArquivos.hpp"
+#include "algExato.hpp"
+#include "leitorArquivos.hpp"
 
 // Processamento de opções de Caminhão 
 void SolExata::processarOpcoesCaminhao(EstadoBusca& estado, Solucao& melhorSolucao, double& melhorMakespan) {

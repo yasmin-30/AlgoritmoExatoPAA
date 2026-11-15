@@ -49,7 +49,7 @@ Compilador g++ com suporte ao padrão C++11 ou superior.
 Na pasta raiz do repositório, execute:
 
 ```
-g++ -std=c++17 -O3 src/main.cpp src/leitorArquivos.cpp src/algExato.cpp src/salvarExecExata.cpp src/ramificacoes.cpp src/custos.cpp src/heuristica/heuristica.cpp src/heuristica/execUnica.cpp -I include -I include/heuristica -o mTSP_DS
+g++ -std=c++17 -O3 src/main.cpp src/leitorArquivos.cpp src/exato/algExato.cpp src/salvarExecExata.cpp src/exato/ramificacoes.cpp src/exato/custos.cpp src/heuristica/heuristica.cpp src/heuristica/execUnica.cpp -I include -I include/heuristica -o mTSP_DS
 ```
 
 ### Executando
