@@ -3,7 +3,6 @@
 
 #include "entidades.hpp"
 #include "leitorArquivos.hpp"
-#include <cmath>
 #include <chrono>
 
 class SolExata {

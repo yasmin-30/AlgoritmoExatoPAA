@@ -1,12 +1,11 @@
 #include <iostream>
 #include <string>
-#include <cmath>
 #include "../include/entidades.hpp"
 #include "../include/leitorArquivos.hpp"
 #include "../include/heuristica.hpp"
 #include "../include/algExato.hpp"
 #include "../include/execUnica.hpp"
-#include "../include/salvarExecUnica.hpp"
+#include "../include/salvarExecExata.hpp"
 
 int main() {
     std::string caminhoArquivo;
@@ -67,21 +66,18 @@ int main() {
     // Executa o método resolver passando o Upper Bound da heurística
     bool encontrouSolucao = solver.resolver(melhorSolucao, upperBoundInicial);
 
-    // Exibe os resultados definitivos
-    if (encontrouSolucao) {
+    if (encontrouSolucao || melhorSolucao.makespan > 0) {
         std::cout << "\n========================================\n";
-        std::cout << "  RESULTADO OTIMO FINAL (B&B)\n";
+        std::cout << "    RESULTADO OTIMO FINAL (B&B)\n";
         std::cout << "========================================\n";
         std::cout << "Makespan Otimo: " << melhorSolucao.makespan << "\n";
-        std::cout << "Total de rotas de caminhao ativas: " << melhorSolucao.rotasCaminhoes.size() << "\n";
-        
-        for (const auto& rota : melhorSolucao.rotasCaminhoes) {
-            std::cout << "  - Caminhao " << rota.id << " | Tempo/Distancia: " << rota.tempoViagem << "\n";
-        }
         std::cout << "========================================\n";
 
+        // Salva o relatorio da instancia
+        salvarDetalhesExecUnica(caminhoArquivo, instancia, melhorSolucao, velocidadeDrone, dronesPorEstacao, "resultados");
+
     } else {
-        std::cout << "\n[Main] O solver exato encerrou sem encontrar melhora (mantendo o resultado da heuristica).\n";
+        std::cout << "\n[Main] O solver exato encerrou sem encontrar melhora.\n";
     }
 
     return 0;

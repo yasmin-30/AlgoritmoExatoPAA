@@ -1,6 +1,5 @@
 #include "../include/execUnica.hpp"
 #include "../include/heuristica.hpp"
-#include "../include/salvarExecUnica.hpp"
 
 #include <iomanip>
 #include <iostream>
@@ -144,7 +143,7 @@ bool executarUnica() {
             if (clientesAlcancaveis.empty()) {
                 std::cout << "nenhum cliente";
             } else {
-                for (std::size_t i = 0; i < clientesAlcancaveis.size(); ++i) {
+                for (int i = 0; i < clientesAlcancaveis.size(); ++i) {
                     if (i > 0) {
                         std::cout << ", ";
                     }
@@ -179,7 +178,7 @@ bool executarUnica() {
                      "(por exemplo, -1 e a estacao 1).\n";
         for (const RotaCaminhao& rota : solucao.rotasCaminhoes) {
             std::cout << "Caminhao " << rota.id << ": ";
-            for (std::size_t i = 0; i < rota.sequenciaNos.size(); ++i) {
+            for (int i = 0; i < rota.sequenciaNos.size(); ++i) {
                 if (i > 0) {
                     std::cout << " -> ";
                 }
@@ -190,11 +189,6 @@ bool executarUnica() {
 
         std::cout << "\nMakespan: " << solucao.makespan << '\n';
         
-        // Salvamento do experimento em .txt
-        std::string arquivoCSV = "resultados/detalhes_execucao.txt";
-        salvarResultadoCSV(arquivoCSV, instancia, velocidadeDrone, dronesPorEstacao, solucao, temposDrones);
-        std::cout << "\n[Info] Resultados salvos com sucesso em '" << arquivoCSV << "'\n";
-
     } catch (const std::exception& erro) {
         std::cerr << "Erro ao executar a heuristica: " << erro.what() << '\n';
         return false;

@@ -27,7 +27,7 @@ void SolExata::precalcularCustosMinimos() {
         Coordenada posCli = instancia_.clientes[i].posicao;
         double menorCusto = std::numeric_limits<double>::max();
 
-        // 1. Melhor cenário possível via Caminhão: distância até o nó mais próximo (depósito, estação ou outro cliente)
+        // Calcula a distância de um cliente até outro ponto (cliente, depósito ou estação)
         double distDeposito = calcularDistancia(posCli, instancia_.deposito.posicao);
         if (distDeposito < menorCusto) menorCusto = distDeposito;
 
@@ -42,7 +42,7 @@ void SolExata::precalcularCustosMinimos() {
             if (d < menorCusto) menorCusto = d;
         }
 
-        // 2. Melhor cenário possível via Drone (caso esteja dentro do raio de alguma estação)
+        // Calcula o custo para atender cliente por drone (se estiver dentro do raio)
         for (int e = 0; e < totalEstacoes; ++e) {
             double distEstacao = calcularDistancia(posCli, instancia_.estacoes[e].posicao);
             if (distEstacao <= (double)instancia_.raio && dronesPorEstacao_ > 0) {
@@ -76,7 +76,7 @@ double SolExata::calcularLowerBound(const EstadoBusca& estado) const {
         }
     }
 
-    // Estimativa 1: Trabalho restante dividido entre os caminhões disponíveis somado ao tempo mínimo já gasto nas rotas atuais
+    // Tempo já gasto somado ao custo restante dividido entre os caminhões disponíveis
     double somaTemposAtuais = 0.0;
     for (const auto& rota : estado.solucaoParcial.rotasCaminhoes) {
         somaTemposAtuais += rota.tempoViagem;
@@ -87,7 +87,7 @@ double SolExata::calcularLowerBound(const EstadoBusca& estado) const {
         lbMediaFrota = (somaTemposAtuais + somaTrabalhoRestante) / (double)qntCaminhoes;
     }
 
-    // Estimativa 2: O maior gargalo já existente ou o cliente restante mais caro isoladamente
+    // Identifica o cliente mais caro
     double lbGargalo = std::max(estado.makespanAtual, maiorCustoIsolado);
 
     // Pegamos o máximo entre as duas estimativas 
@@ -169,7 +169,7 @@ void SolExata::processarOpcoesCaminhao(EstadoBusca& estado, Solucao& melhorSoluc
         estado.solucaoParcial.rotasCaminhoes[i].tempoViagem = tempoAntigo;
     }
 
-    // Opção 2: O caminhão ativa uma estação e atende cliente
+    // Opção 2: O caminhão ativa uma estação e atende um cliente
     for (int i = 0; i < totalEstacoes; ++i) {
         for (int j = 0; j < totalRotas; ++j) {
             std::vector<bool> visitadosCaminhao = estado.visitados;
@@ -209,7 +209,7 @@ void SolExata::processarOpcoesCaminhao(EstadoBusca& estado, Solucao& melhorSoluc
         }
     }
 
-    // Opção 3: Abrimos nova rota para o caminhão
+    // Opção 3: Abre uma nova rota para o caminhão
     if (estado.caminhoesEmUso < instancia_.deposito.qntCaminhoes) {
         std::vector<bool> visitadosCaminhao = estado.visitados;
         visitadosCaminhao[clienteAtual] = true;
