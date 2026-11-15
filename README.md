@@ -8,10 +8,11 @@ Este repositório contém uma implementação modular e eficiente em C++ desenvo
 AlgoritmoExatoPAA/
 │
 ├── include/                   # Declarações e cabeçalhos (.hpp)
+│   ├── heuristica/
+│   │   ├── execUnica.hpp      # Interface para execução de uma instância individual
+│   │   └── heuristica.hpp     # Declaração da Heurística Construtiva Gulosa
 │   ├── algExato.hpp           # Declaração das funções e estruturas usadas no algoritmo
 │   ├── entidades.hpp          # Definição das estruturas do problema (Vértices, Drones, Caixeiros, etc.)
-│   ├── execUnica.hpp          # Interface para execução de uma instância individual
-│   ├── heuristica.hpp         # Declaração da Heurística Construtiva Gulosa
 │   ├── leitorArquivos.hpp     # Declaração da leitura dos arquivos .mtspds
 │   └── salvarExecExata.hpp    # Declaração da função para salvar os relatórios .csv
 │
@@ -22,14 +23,16 @@ AlgoritmoExatoPAA/
 ├── resultados/                # Relatórios e métricas de saída gerados
 │
 ├── src/                       # Implementação das lógicas em C++ (.cpp)
+│   ├── heuristica/
+│   │   ├── execUnica.cpp      # Lógica para teste e depuração individual
+│   │   └── heuristica.cpp     # Lógica da Heurística Construtiva Gulosa
 │   ├── algExato.cpp           # Lógica do algoritmo exato (branch and bound)
-│   ├── execUnica.cpp          # Lógica para teste e depuração individual
-│   ├── heuristica.cpp         # Lógica da Heurística Construtiva Gulosa
 │   ├── leitorArquivos.cpp     # Leitura dos dados das instâncias
-│   └── main.cpp               # Ponto de entrada da aplicação
-│   ├── salvarExecExata.cpp    # Salva os resultados da execução do algoritmo
+│   ├── main.cpp               # Ponto de entrada da aplicação
+│   └── salvarExecExata.cpp    # Salva os resultados da execução do algoritmo
 │
-├── .gitignore                  
+├── .gitignore        
+└── README.md      
 ```
 
 
