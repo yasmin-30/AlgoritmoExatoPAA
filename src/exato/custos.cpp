@@ -90,36 +90,43 @@ double SolExata::calcularLowerBound(const EstadoBusca& estado) const {
 
 // Calcula o custo total de uma rota de caminhao
 double SolExata::calcularCustoRotaCaminhao(const RotaCaminhao& rota) const {
-    if(rota.sequenciaNos.empty() && rota.estacoesVisitadas.empty()) return 0.0;
+    if (rota.sequenciaNos.empty()) return 0.0;
 
     double custoTotal = 0.0;
     Coordenada posicaoAtual = instancia_.deposito.posicao;
 
-    int totalEstacoesInstancia = (int)instancia_.estacoes.size();
-    for (int idEstacao : rota.estacoesVisitadas) {
-        if (idEstacao >= 0 && idEstacao < totalEstacoesInstancia) {
-            Coordenada posEstacao = instancia_.estacoes[idEstacao].posicao;
-            custoTotal += calcularDistancia(posicaoAtual, posEstacao);
-            posicaoAtual = posEstacao;
-        }
-    }
+    for (int no : rota.sequenciaNos) {
+        Coordenada posProximo;
 
-    for (int idCliente : rota.sequenciaNos) {
-        Coordenada posCliente = {0.0, 0.0};
-        bool encontrado = false;
-        for (const auto& cli : instancia_.clientes) {
-            if (cli.idCliente == idCliente) {
-                posCliente = cli.posicao;
-                encontrado = true;
-                break;
+        if (no > 0) {
+            // Verifica se o nó é um cliente
+            int idCliente = no;
+            bool encontrado = false;
+            for (const auto& cli : instancia_.clientes) {
+                if (cli.idCliente == idCliente) {
+                    posProximo = cli.posicao;
+                    encontrado = true;
+                    break;
+                }
+            }
+            if (!encontrado) continue; // Segurança
+        } 
+        else {
+            // Verifica se o nó é uma estação
+            int idxEstacao = (-no) - 1; 
+            if (idxEstacao >= 0 && idxEstacao < (int)instancia_.estacoes.size()) {
+                posProximo = instancia_.estacoes[idxEstacao].posicao;
+            } else {
+                continue;
             }
         }
-        if (encontrado) {
-            custoTotal += calcularDistancia(posicaoAtual, posCliente);
-            posicaoAtual = posCliente;
-        }
+
+        // Soma a distância do ponto atual até o próximo nó
+        custoTotal += calcularDistancia(posicaoAtual, posProximo);
+        posicaoAtual = posProximo;
     }
 
+    // Retorna ao depósito ao final da rota
     custoTotal += calcularDistancia(posicaoAtual, instancia_.deposito.posicao);
 
     return custoTotal;
