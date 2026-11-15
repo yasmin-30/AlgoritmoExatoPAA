@@ -49,7 +49,7 @@ g++ -std=c++17 -O3 src/main.cpp src/leitorArquivos.cpp src/heuristica.cpp src/al
 O programa deve ser executado a partir da pasta raiz do repositório, pois usa os caminhos relativos `instancias/` e `resultados/`.
 
 - **Linux, macOS:** `./mTSP_DS`
-- **Windows:** `./mTSP_DS.exe                                                                      `
+- **Windows:** `./mTSP_DS.exe`
 
 Ao iniciar, o programa exibe um menu que pede as seguintes informações:
 
