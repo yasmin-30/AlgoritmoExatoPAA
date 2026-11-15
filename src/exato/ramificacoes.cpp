@@ -1,5 +1,6 @@
 #include "algExato.hpp"
 #include "leitorArquivos.hpp"
+#include <algorithm>
 
 // Processamento de opções de Caminhão 
 void SolExata::processarOpcoesCaminhao(EstadoBusca& estado, Solucao& melhorSolucao, double& melhorMakespan) {
@@ -14,8 +15,10 @@ void SolExata::processarOpcoesCaminhao(EstadoBusca& estado, Solucao& melhorSoluc
 
     // Opção 2: O caminhão ativa uma estação e atende um cliente
     for (int i = 0; i < totalEstacoes; ++i) {
-        for (int j = 0; j < totalRotas; ++j) {
-            processarOpcaoAtivarEstacao(estado, melhorSolucao, melhorMakespan, clienteAtual, i, j);
+        if (!estado.estacoesAtivadas[i]) {
+            for (int j = 0; j < totalRotas; ++j) {
+                processarOpcaoAtivarEstacao(estado, melhorSolucao, melhorMakespan, clienteAtual, i, j);
+            }
         }
     }
 
@@ -133,13 +136,11 @@ void SolExata::processarOpcoesDrone(EstadoBusca& estado, Solucao& melhorSolucao,
     for (int i = 0; i < totalEstacoes; ++i) {
         double distEstacaoCliente = calcularDistancia(instancia_.estacoes[i].posicao, instancia_.clientes[clienteAtual].posicao);
         
-        if (estado.estacoesAtivadas[i] && distEstacaoCliente <= (double)instancia_.raio && estado.dronesEmUsoPorEstacao[i] < dronesPorEstacao_) {
+        // Verifica se a estação está ativa, dentro do raio de alcance e se há drone disponível
+        if (estado.estacoesAtivadas[i] && distEstacaoCliente <= (double)instancia_.raio && dronesPorEstacao_ > 0) {
             
             std::vector<bool> visitadosDrone = estado.visitados;
             visitadosDrone[clienteAtual] = true;
-            
-            std::vector<int> novoDronesEmUso = estado.dronesEmUsoPorEstacao;
-            novoDronesEmUso[i]++;
             
             double custoTempoDrone = (2.0 * distEstacaoCliente) / (velocidadeCaminhao * fatorVelocidadeDrone_);
             double novoMakespanDrone = std::max(estado.makespanAtual, custoTempoDrone);
@@ -151,7 +152,7 @@ void SolExata::processarOpcoesDrone(EstadoBusca& estado, Solucao& melhorSolucao,
                 visitadosDrone,
                 estado.caminhoesEmUso,
                 estado.estacoesAtivadas,
-                novoDronesEmUso,
+                estado.dronesEmUsoPorEstacao,
                 novoMakespanDrone,
                 estado.solucaoParcial
             };
