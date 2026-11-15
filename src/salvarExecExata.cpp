@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <vector>
 
-// FAZER PARA LINUX TAMBEM ***************************
 bool salvarDetalhesExecUnica(const std::string& caminhoArquivoInstancia,
                                const Instancia& instancia,
                                const Solucao& solucao,
@@ -24,11 +23,14 @@ bool salvarDetalhesExecUnica(const std::string& caminhoArquivoInstancia,
     std::string nomeBase = (posExt == std::string::npos) ? nomeArquivo : nomeArquivo.substr(0, posExt);
 
     // Monta o caminho final do arquivo
-    std::string caminhoFinal = pastaSaida + "/" + nomeBase + "_detalhes.txt";
+    std::ostringstream oss;
+    oss << pastaSaida << "/" << nomeBase << "_v" << std::fixed << std::setprecision(1) 
+        << velocidadeDrone << "_d" << dronesPorEstacao << ".txt";
+    std::string caminhoFinal = oss.str();
 
     std::ofstream arquivo(caminhoFinal);
     if (!arquivo.is_open()) {
-        std::cerr << "[Erro] Nao foi possivel criar o arquivo em: " << caminhoFinal 
+        std::cerr << "ERRO: Nao foi possivel criar o arquivo em: " << caminhoFinal 
                   << " (Verifique se a pasta '" << pastaSaida << "' existe!)\n";
         return false;
     }
@@ -115,9 +117,8 @@ bool salvarDetalhesExecUnica(const std::string& caminhoArquivoInstancia,
     // Makespan final
     arquivo << std::fixed << std::setprecision(2);
     arquivo << "Makespan: " << solucao.makespan << "\n\n";
-    arquivo << "[Info] Relatorio salvo com sucesso em '" << caminhoFinal << "'\n";
 
     arquivo.close();
-    std::cout << "[Info] Relatorio salvo com sucesso em '" << caminhoFinal << "'\n";
+    std::cout << "Relatorio salvo com sucesso em '" << caminhoFinal << "'\n";
     return true;
 }
