@@ -2,9 +2,9 @@
 #include <string>
 #include "../include/entidades.hpp"
 #include "../include/leitorArquivos.hpp"
-#include "../include/heuristica.hpp"
+#include "../include/heuristica/heuristica.hpp"
 #include "../include/algExato.hpp"
-#include "../include/execUnica.hpp"
+#include "../include/heuristica/execUnica.hpp"
 #include "../include/salvarExecExata.hpp"
 
 int main() {

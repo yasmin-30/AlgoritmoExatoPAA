@@ -351,7 +351,7 @@ bool SolExata::resolver(Solucao& melhorSolucao, double upperBoundInicial, double
     branchAndBound(estadoInicial, melhorSolucao, melhorMakespan);
 
     if (timeoutAtingido_) {
-        std::cout << "AVISO: Limite de 10 minutos atingido! Retornando a melhor solucao obtida.\n";
+        std::cout << "AVISO: Limite de tempo atingido! Retornando a melhor solucao obtida.\n";
     }
 
     if (melhorMakespan >= upperBoundInicial && !timeoutAtingido_) {
