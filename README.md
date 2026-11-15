@@ -23,6 +23,10 @@ AlgoritmoExatoPAA/
 ├── resultados/                # Relatórios e métricas de saída gerados
 │
 ├── src/                       # Implementação das lógicas em C++ (.cpp)
+│   ├── exato/
+│   │     ├── algExato.cpp     # Construtor, resolver() e branchAndBound()
+│   │     ├── custos.cpp       # Distâncias, pré-cálculo, Lower Bound e custo de rota
+│   │     └── ramificacoes.cpp # Ramificações de caminhão e drone
 │   ├── heuristica/
 │   │   ├── execUnica.cpp      # Lógica para teste e depuração individual
 │   │   └── heuristica.cpp     # Lógica da Heurística Construtiva Gulosa
@@ -45,7 +49,7 @@ Compilador g++ com suporte ao padrão C++11 ou superior.
 Na pasta raiz do repositório, execute:
 
 ```
-g++ -std=c++17 -O3 src/main.cpp src/leitorArquivos.cpp src/algExato.cpp src/salvarExecExata.cpp src/heuristica/heuristica.cpp src/heuristica/execUnica.cpp -I include -I include/heuristica -o mTSP_DS
+g++ -std=c++17 -O3 src/main.cpp src/leitorArquivos.cpp src/algExato.cpp src/salvarExecExata.cpp src/ramificacoes.cpp src/custos.cpp src/heuristica/heuristica.cpp src/heuristica/execUnica.cpp -I include -I include/heuristica -o mTSP_DS
 ```
 
 ### Executando
@@ -60,4 +64,4 @@ Ao iniciar, o programa exibe um menu que pede as seguintes informações:
 - a velocidade dos drones: 0.5, 1 ou 2;
 - a quantidade de drones por estação: 1, 2 ou 3.
 
-Em seguida, é exibido o makespan para a instância dada. Além disso, os dados da instância, as atribuições dos drones, as rotas dos caminhões e o *makespan* são salvos no arquivo nome_do_arquivo_detalhes.txt.
+Em seguida, é exibido o makespan para a instância dada. Além disso, os dados da instância, as atribuições dos drones, as rotas dos caminhões e o *makespan* são salvos no arquivo nome_do_arquivo_v(valor do fator velocidade)_d(número de drones por estação).txt.
