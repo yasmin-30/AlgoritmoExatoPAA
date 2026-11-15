@@ -12,7 +12,7 @@ class SolExata {
         SolExata(const Instancia& instancia, double fatorVelocidadeDrone = 1.0, int dronesPorEstacao = 2);
 
         // Limite de tempo de 10 min
-        bool resolver(Solucao& melhorSolucao, double upperBoundInicial, double limiteTempoSegundos = 120.0);
+        bool resolver(Solucao& melhorSolucao, double upperBoundInicial, double limiteTempoSegundos = 600.0);
 
     private:
         Instancia instancia_;
