@@ -29,7 +29,6 @@ int main() {
         }
     } while (caminhoArquivo.empty());
 
-    // Leitura dos parâmetros operacionais
     if (!lerVelocidade(velocidadeDrone)) { 
         velocidadeDrone = 1.0;
     }
@@ -38,37 +37,29 @@ int main() {
         dronesPorEstacao = 2;
     }
 
-    std::cout << "----------------------------------------\n";
-    std::cout << "[Main] Carregando instancia de: " << caminhoArquivo << "\n";
-
     // Carrega a instância
     Instancia instancia{};
     if (!lerInstancia(caminhoArquivo, instancia)) {
-        std::cerr << "[Erro] Falha ao carregar ou ler o arquivo da instancia.\n";
+        std::cerr << "ERRO: Falha ao carregar ou ler o arquivo da instancia.\n";
         return 1;
     }
 
     // Executa a Heurística para obter o upper bound
-    std::cout << "[Main] Executando a Heuristica para gerar o Upper Bound inicial...\n";
     Solucao solucaoHeuristica = executarHeuristica(instancia, dronesPorEstacao, velocidadeDrone);
-    
     double upperBoundInicial = solucaoHeuristica.makespan;
-    std::cout << "[Main] Heuristica concluida com sucesso!\n";
-    std::cout << "[Main] Makespan inicial obtido (Upper Bound): " << upperBoundInicial << "\n";
+    std::cout << "Makespan inicial obtido (Upper Bound): " << upperBoundInicial << "\n";
 
     // Configura o algoritmo exato
     SolExata solver(instancia, velocidadeDrone, dronesPorEstacao);
 
     Solucao melhorSolucao = solucaoHeuristica; 
 
-    std::cout << "[Main] Iniciando o Branch and Bound...\n";
-
     // Executa o método resolver passando o Upper Bound da heurística
     bool encontrouSolucao = solver.resolver(melhorSolucao, upperBoundInicial);
 
     if (encontrouSolucao || melhorSolucao.makespan > 0) {
         std::cout << "\n========================================\n";
-        std::cout << "    RESULTADO OTIMO FINAL (B&B)\n";
+        std::cout << "         RESULTADO OTIMO FINAL\n";
         std::cout << "========================================\n";
         std::cout << "Makespan Otimo: " << melhorSolucao.makespan << "\n";
         std::cout << "========================================\n";
@@ -76,8 +67,6 @@ int main() {
         // Salva o relatorio da instancia
         salvarDetalhesExecUnica(caminhoArquivo, instancia, melhorSolucao, velocidadeDrone, dronesPorEstacao, "resultados");
 
-    } else {
-        std::cout << "\n[Main] O solver exato encerrou sem encontrar melhora.\n";
     }
 
     return 0;

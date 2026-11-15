@@ -328,7 +328,7 @@ bool SolExata::resolver(Solucao& melhorSolucao, double upperBoundInicial, double
     int totalClientes = (int)instancia_.clientes.size();
     int totalEstacoes = (int)instancia_.estacoes.size();
     
-    // Calcula a tabela de estimativa antes de iniciar a árvore
+    // Calcula a tabela de estimativa usada no lower bound antes de iniciar a árvore
     precalcularCustosMinimos();
 
     limiteTempoSegundos_ = limiteTempoSegundos;
@@ -346,16 +346,16 @@ bool SolExata::resolver(Solucao& melhorSolucao, double upperBoundInicial, double
     estadoInicial.solucaoParcial = melhorSolucao;
     double melhorMakespan = upperBoundInicial;
     
-    std::cout << "[SolExata] Iniciando Branch and Bound (Limite: " << limiteTempoSegundos_ << "s) e Upper Bound = " << melhorMakespan << "...\n";
+    std::cout << "Iniciando Branch and Bound (Limite: " << limiteTempoSegundos_ << "s) e Upper Bound = " << melhorMakespan << "...\n";
     
     branchAndBound(estadoInicial, melhorSolucao, melhorMakespan);
 
     if (timeoutAtingido_) {
-        std::cout << "[SolExata] AVISO: Limite de 10 minutos atingido! Retornando a melhor solucao obtida.\n";
+        std::cout << "AVISO: Limite de 10 minutos atingido! Retornando a melhor solucao obtida.\n";
     }
 
     if (melhorMakespan >= upperBoundInicial && !timeoutAtingido_) {
-        std::cout << "[SolExata] O exato nao encontrou melhora estrita. Mantendo o resultado da heuristica.\n";
+        std::cout << "O exato nao encontrou melhora estrita. Mantendo o resultado da heuristica.\n";
         return false;
     }
 
