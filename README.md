@@ -53,7 +53,7 @@ O programa deve ser executado a partir da pasta raiz do repositório, pois usa o
 
 Ao iniciar, o programa exibe um menu que pede as seguintes informações:
 
-- o arquivo da instância, informado com a pasta e o nome, por exemplo `clustered\B-n34-k5-r8.mtspds` ou `scattered/A-n36-k5-r12.mtspds` (as duas barras são aceitas em qualquer sistema);
+- o arquivo da instância, informado com a pasta e o nome, por exemplo `instancias\clustered\B-n34-k5-r8.mtspds` ou `instancias/scattered/A-n36-k5-r12.mtspds` (as duas barras são aceitas em qualquer sistema);
 - a velocidade dos drones: 0.5, 1 ou 2;
 - a quantidade de drones por estação: 1, 2 ou 3.
 
