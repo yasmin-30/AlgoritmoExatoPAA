@@ -1,5 +1,5 @@
 === Informacoes da instancia ===
-Arquivo: instancias/scattered/A-n36-k5-r12.mtspds
+Arquivo: instancias\scattered\A-n36-k5-r12.mtspds
 Deposito: (15.00, 19.00)
 Clientes: 35
 Estacoes: 4
@@ -15,20 +15,24 @@ Estacao 3: 5, 7, 10, 20, 26
 Estacao 4: 3, 6, 9, 12, 14, 28
 
 === Atribuicoes dos drones ===
+Estacao 1 -> Cliente 28
+Estacao 2 -> Cliente 30
+Estacao 2 -> Cliente 31
+Estacao 2 -> Cliente 33
 
 === Tempo de atendimento por estacao ===
-Estacao 1: 0.00
-Estacao 2: 0.00
+Estacao 1: 145.59
+Estacao 2: 202.23
 Estacao 3: 0.00
 Estacao 4: 0.00
 
 === Rotas dos caminhoes ===
 No 0 representa o deposito, nos positivos representam clientes e nos negativos representam estacoes (por exemplo, -1 e a estacao 1).
-Caminhao 1: 0 -> 5 -> 3 -> 2 -> 1 -> 0 | distancia: 237.41
-Caminhao 2: 0 -> 10 -> 7 -> 20 -> 9 -> 28 -> 6 -> 4 -> 12 -> 25 -> 11 -> 0 | distancia: 237.16
-Caminhao 3: 0 -> 26 -> 15 -> 14 -> 23 -> 35 -> 8 -> 0 | distancia: 235.67
-Caminhao 4: 0 -> 16 -> 27 -> 24 -> 32 -> 30 -> 29 -> 22 -> 21 -> 18 -> 17 -> 13 -> 0 | distancia: 234.11
-Caminhao 5: 0 -> 33 -> 31 -> 19 -> 34 -> 0 | distancia: 220.45
+Caminhao 1: 0 -> 5 -> 9 -> 28 -> 6 -> 3 -> 23 -> 2 -> 11 -> 1 -> 0 | distancia: 241.27
+Caminhao 2: 0 -> 10 -> 7 -> 20 -> 14 -> 12 -> 4 -> 0 | distancia: 240.19
+Caminhao 3: 0 -> 16 -> 25 -> -1 -> 15 -> 8 -> 26 -> 0 | distancia: 232.32
+Caminhao 4: 0 -> 31 -> 19 -> 18 -> 17 -> 13 -> 22 -> 21 -> 0 | distancia: 241.32
+Caminhao 5: 0 -> 24 -> -2 -> 33 -> 34 -> 35 -> 0 | distancia: 239.85
 
-Makespan: 237.41
+Makespan: 241.32
 

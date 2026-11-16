@@ -1,5 +1,5 @@
 === Informacoes da instancia ===
-Arquivo: instancias/scattered/A-n36-k5-r12.mtspds
+Arquivo: instancias\scattered\A-n36-k5-r12.mtspds
 Deposito: (15.00, 19.00)
 Clientes: 35
 Estacoes: 4
@@ -15,43 +15,43 @@ Estacao 3: 5, 7, 10, 20, 26
 Estacao 4: 3, 6, 9, 12, 14, 28
 
 === Atribuicoes dos drones ===
-Estacao 5 -> Cliente 3
-Estacao 4 -> Cliente 5
-Estacao 5 -> Cliente 6
-Estacao 4 -> Cliente 7
-Estacao 5 -> Cliente 9
-Estacao 4 -> Cliente 10
-Estacao 2 -> Cliente 11
-Estacao 5 -> Cliente 12
-Estacao 5 -> Cliente 14
-Estacao 3 -> Cliente 17
-Estacao 3 -> Cliente 18
-Estacao 4 -> Cliente 20
-Estacao 3 -> Cliente 21
-Estacao 3 -> Cliente 22
-Estacao 2 -> Cliente 24
-Estacao 2 -> Cliente 25
-Estacao 4 -> Cliente 26
-Estacao 2 -> Cliente 27
-Estacao 5 -> Cliente 28
-Estacao 3 -> Cliente 29
-Estacao 3 -> Cliente 30
-Estacao 3 -> Cliente 32
-Estacao 3 -> Cliente 33
+Estacao 4 -> Cliente 3
+Estacao 3 -> Cliente 5
+Estacao 4 -> Cliente 6
+Estacao 3 -> Cliente 7
+Estacao 4 -> Cliente 9
+Estacao 3 -> Cliente 10
+Estacao 1 -> Cliente 11
+Estacao 4 -> Cliente 12
+Estacao 4 -> Cliente 14
+Estacao 2 -> Cliente 17
+Estacao 2 -> Cliente 18
+Estacao 3 -> Cliente 20
+Estacao 2 -> Cliente 21
+Estacao 2 -> Cliente 22
+Estacao 1 -> Cliente 24
+Estacao 1 -> Cliente 25
+Estacao 3 -> Cliente 26
+Estacao 1 -> Cliente 27
+Estacao 4 -> Cliente 28
+Estacao 2 -> Cliente 29
+Estacao 2 -> Cliente 30
+Estacao 2 -> Cliente 32
+Estacao 2 -> Cliente 33
 
 === Tempo de atendimento por estacao ===
-Estacao 1: 0.00
-Estacao 2: 469.78
-Estacao 3: 2155.88
-Estacao 4: 982.04
+Estacao 1: 147.68
+Estacao 2: 272.09
+Estacao 3: 188.87
+Estacao 4: 250.61
 
 === Rotas dos caminhoes ===
 No 0 representa o deposito, nos positivos representam clientes e nos negativos representam estacoes (por exemplo, -1 e a estacao 1).
-Caminhao 1: 0 -> 0 -> -3 -> 15 -> 8 -> 35 -> 0 -> 0 | distancia: 173.14
-Caminhao 2: 0 -> 0 -> 34 -> 23 -> 2 -> 0 -> 0 | distancia: 165.83
-Caminhao 3: 0 -> 0 -> -4 -> 19 -> 4 -> 0 -> 0 | distancia: 230.13
-Caminhao 4: 0 -> 0 -> -1 -> -2 -> 31 -> 0 -> 0 | distancia: 183.47
-Caminhao 5: 0 -> 0 -> 16 -> 1 -> 13 -> 0 -> 0 | distancia: 160.33
+Caminhao 1: 0 -> -3 -> 15 -> 8 -> 35 -> 0 | distancia: 173.14
+Caminhao 2: 0 -> 34 -> 23 -> 2 -> 0 | distancia: 165.83
+Caminhao 3: 0 -> -4 -> 19 -> 4 -> 0 | distancia: 230.13
+Caminhao 4: 0 -> -1 -> -2 -> 31 -> 0 | distancia: 183.47
+Caminhao 5: 0 -> 16 -> 1 -> 13 -> 0 | distancia: 160.33
 
 Makespan: 230.13
 
