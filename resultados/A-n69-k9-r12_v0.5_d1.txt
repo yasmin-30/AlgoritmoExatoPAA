@@ -1,0 +1,42 @@
+=== Informacoes da instancia ===
+Arquivo: instancias/scattered/A-n69-k9-r12.mtspds
+Deposito: (59.00, 44.00)
+Clientes: 68
+Estacoes: 6
+Caminhoes: 9
+Alcance das estacoes: 12
+Velocidade do drone: 0.50
+Drones por estacao: 1
+
+=== Clientes ao alcance de cada estacao ===
+Estacao 1: 8, 38, 39, 40, 59, 68
+Estacao 2: 1, 10, 16, 17, 32, 36, 37, 48, 50
+Estacao 3: 3, 6, 13, 15, 44, 51
+Estacao 4: 12, 22, 24, 29, 58, 66
+Estacao 5: 5, 26, 46, 52, 54, 57
+Estacao 6: 4, 27, 47, 55, 60, 65
+
+=== Atribuicoes dos drones ===
+
+=== Tempo de atendimento por estacao ===
+Estacao 1: 0.00
+Estacao 2: 0.00
+Estacao 3: 0.00
+Estacao 4: 0.00
+Estacao 5: 0.00
+Estacao 6: 0.00
+
+=== Rotas dos caminhoes ===
+No 0 representa o deposito, nos positivos representam clientes e nos negativos representam estacoes (por exemplo, -1 e a estacao 1).
+Caminhao 1: 0 -> 2 -> 9 -> 6 -> 3 -> 15 -> 1 -> -2 -> 37 -> 5 -> 54 -> 0 | distancia: 236.60
+Caminhao 2: 0 -> 19 -> 24 -> 22 -> 12 -> 8 -> 38 -> 7 -> 34 -> 14 -> 4 -> -6 -> 27 -> 0 | distancia: 236.62
+Caminhao 3: 0 -> 58 -> 13 -> 29 -> 43 -> 26 -> -5 -> 11 -> 32 -> 17 -> 10 -> 16 -> 52 -> 0 | distancia: 236.44
+Caminhao 4: 0 -> 28 -> 21 -> 67 -> 31 -> 23 -> 41 -> 20 -> 68 -> 66 -> 18 -> 0 | distancia: 236.19
+Caminhao 5: 0 -> 53 -> 33 -> 30 -> 57 -> 42 -> 25 -> 0 | distancia: 231.70
+Caminhao 6: 0 -> 40 -> 39 -> 56 -> 36 -> 59 -> 45 -> 35 -> 44 -> 0 | distancia: 232.46
+Caminhao 7: 0 -> 50 -> 48 -> 65 -> 55 -> 47 -> 46 -> 0 | distancia: 231.67
+Caminhao 8: 0 -> 51 -> 49 -> 61 -> 60 -> 0 | distancia: 232.88
+Caminhao 9: 0 -> 64 -> 63 -> 62 -> 0 | distancia: 197.34
+
+Makespan: 236.62
+

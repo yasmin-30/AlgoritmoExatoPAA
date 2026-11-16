@@ -1,0 +1,45 @@
+=== Informacoes da instancia ===
+Arquivo: instancias/scattered/M-n151-k12-r12.mtspds
+Deposito: (35.00, 35.00)
+Clientes: 150
+Estacoes: 6
+Caminhoes: 12
+Alcance das estacoes: 12
+Velocidade do drone: 0.50
+Drones por estacao: 3
+
+=== Clientes ao alcance de cada estacao ===
+Estacao 1: 7, 8, 18, 19, 45, 46, 47, 48, 82, 83, 106, 114, 123, 124, 125
+Estacao 2: 5, 6, 16, 17, 37, 44, 59, 60, 61, 84, 85, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 104, 113, 117, 118, 119, 141, 147
+Estacao 3: 1, 10, 20, 30, 31, 32, 62, 69, 70, 88, 90, 101, 108, 122, 127, 128, 131, 132, 148
+Estacao 4: 2, 13, 21, 22, 40, 41, 57, 58, 72, 73, 74, 75, 87, 105, 110, 115, 133, 137, 144, 145
+Estacao 5: 3, 12, 24, 26, 29, 50, 54, 68, 76, 77, 79, 80, 102, 109, 111, 116, 121, 129, 130, 134, 138, 149, 150
+Estacao 6: 9, 33, 34, 35, 51, 71, 78, 81, 103, 120, 129, 135, 136
+
+=== Atribuicoes dos drones ===
+
+=== Tempo de atendimento por estacao ===
+Estacao 1: 0.00
+Estacao 2: 0.00
+Estacao 3: 0.00
+Estacao 4: 0.00
+Estacao 5: 0.00
+Estacao 6: 0.00
+
+=== Rotas dos caminhoes ===
+No 0 representa o deposito, nos positivos representam clientes e nos negativos representam estacoes (por exemplo, -1 e a estacao 1).
+Caminhao 1: 0 -> 52 -> 7 -> 8 -> 6 -> 5 -> 13 -> 4 -> 3 -> 26 -> 2 -> 1 -> -3 -> 27 -> 0 | distancia: 229.09
+Caminhao 2: 0 -> 15 -> 16 -> 14 -> 137 -> 12 -> 31 -> 11 -> 10 -> 30 -> 9 -> -6 -> 33 -> 50 -> 28 -> 0 | distancia: 229.09
+Caminhao 3: 0 -> 53 -> 40 -> 72 -> 23 -> 22 -> 73 -> 21 -> 54 -> 24 -> 29 -> 51 -> 20 -> 32 -> 90 -> 19 -> 18 -> 45 -> 17 -> -2 -> 0 | distancia: 229.10
+Caminhao 4: 0 -> 92 -> 37 -> 98 -> 84 -> 125 -> 46 -> 36 -> 47 -> 48 -> 62 -> 35 -> 34 -> 55 -> 39 -> 25 -> 149 -> 0 | distancia: 229.09
+Caminhao 5: 0 -> 146 -> 123 -> 49 -> 124 -> 61 -> 44 -> 43 -> 42 -> 57 -> 41 -> 38 -> 59 -> 95 -> 58 -> 0 | distancia: 229.05
+Caminhao 6: 0 -> 69 -> 101 -> 70 -> 66 -> 65 -> 64 -> 63 -> 82 -> 83 -> 60 -> 74 -> 75 -> 56 -> 0 | distancia: 229.09
+Caminhao 7: 0 -> 111 -> 102 -> 81 -> 150 -> 80 -> 79 -> 78 -> 129 -> 77 -> 76 -> 71 -> 120 -> 68 -> 67 -> 115 -> 87 -> 0 | distancia: 229.07
+Caminhao 8: 0 -> 112 -> 100 -> 104 -> 99 -> 97 -> 96 -> 94 -> 93 -> 91 -> 89 -> 122 -> 103 -> 88 -> 106 -> 113 -> 86 -> 85 -> 0 | distancia: 228.98
+Caminhao 9: 0 -> 114 -> 127 -> 132 -> 116 -> 110 -> 109 -> 108 -> 107 -> 148 -> 105 -> -4 -> 117 -> 0 | distancia: 228.31
+Caminhao 10: 0 -> 138 -> 130 -> 134 -> 128 -> 131 -> 126 -> 121 -> 119 -> 141 -> 118 -> 147 -> 0 | distancia: 228.32
+Caminhao 11: 0 -> 145 -> 144 -> 142 -> 139 -> 136 -> 135 -> 133 -> 0 | distancia: 227.14
+Caminhao 12: 0 -> 143 -> 140 -> 0 | distancia: 141.45
+
+Makespan: 229.10
+
