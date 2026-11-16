@@ -1,0 +1,64 @@
+=== Informacoes da instancia ===
+Arquivo: instancias\clustered\B-n31-k5-r8.mtspds
+Deposito: (17.00, 76.00)
+Clientes: 30
+Estacoes: 4
+Caminhoes: 5
+Alcance das estacoes: 8
+Velocidade do drone: 0.50
+Drones por estacao: 2
+
+=== Clientes ao alcance de cada estacao ===
+Estacao 1: 4, 5, 16, 18, 21, 25
+Estacao 2: 3, 6, 7, 8, 9, 12, 13, 17, 22, 23, 26, 28, 29, 30
+Estacao 3: 1, 11, 14, 15, 19, 24
+Estacao 4: 2, 10, 20, 27
+
+=== Atribuicoes dos drones ===
+Estacao 4 -> Cliente 1
+Estacao 5 -> Cliente 2
+Estacao 3 -> Cliente 3
+Estacao 2 -> Cliente 4
+Estacao 2 -> Cliente 5
+Estacao 3 -> Cliente 6
+Estacao 3 -> Cliente 7
+Estacao 3 -> Cliente 8
+Estacao 3 -> Cliente 9
+Estacao 5 -> Cliente 10
+Estacao 4 -> Cliente 11
+Estacao 3 -> Cliente 12
+Estacao 3 -> Cliente 13
+Estacao 4 -> Cliente 14
+Estacao 4 -> Cliente 15
+Estacao 2 -> Cliente 16
+Estacao 3 -> Cliente 17
+Estacao 2 -> Cliente 18
+Estacao 4 -> Cliente 19
+Estacao 5 -> Cliente 20
+Estacao 2 -> Cliente 21
+Estacao 3 -> Cliente 22
+Estacao 3 -> Cliente 23
+Estacao 4 -> Cliente 24
+Estacao 2 -> Cliente 25
+Estacao 3 -> Cliente 26
+Estacao 5 -> Cliente 27
+Estacao 3 -> Cliente 28
+Estacao 3 -> Cliente 29
+Estacao 3 -> Cliente 30
+
+=== Tempo de atendimento por estacao ===
+Estacao 1: 0.00
+Estacao 2: 508.85
+Estacao 3: 1053.47
+Estacao 4: 1709.07
+
+=== Rotas dos caminhoes ===
+No 0 representa o deposito, nos positivos representam clientes e nos negativos representam estacoes (por exemplo, -1 e a estacao 1).
+Caminhao 1: 0 -> 0 -> -1 -> 0 -> 0 | distancia: 86.59
+Caminhao 2: 0 -> 0 -> -2 -> 0 -> 0 | distancia: 105.03
+Caminhao 3: 0 -> 0 -> -3 -> 0 -> 0 | distancia: 134.38
+Caminhao 4: 0 -> 0 -> -4 -> 0 -> 0 | distancia: 178.95
+Caminhao 5: 0 -> 0 -> 0 -> 0 | distancia: 0.00
+
+Makespan: 178.95
+

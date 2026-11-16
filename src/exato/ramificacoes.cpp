@@ -167,7 +167,7 @@ void SolExata::processarOpcoesDrone(EstadoBusca& estado, Solucao& melhorSolucao,
             EstadoBusca prox = estado;
             prox.visitados[clienteAtual] = true;
             prox.cargaDrones[i][d] += tempoVoo;
-            prox.solucaoParcial.atendimentoDrones.push_back({i, clienteAtual});
+            prox.solucaoParcial.atendimentoDrones.push_back({i, clienteAtual + 1});
 
             prox.makespanAtual = calcularMakespanParcial(prox.solucaoParcial, prox.cargaDrones);
             if (prox.makespanAtual >= melhorMakespan) continue;
