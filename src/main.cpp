@@ -6,6 +6,7 @@
 #include "../include/algExato.hpp"
 #include "../include/heuristica/execUnica.hpp"
 #include "../include/salvarExecExata.hpp"
+#include <algorithm>
 
 int main() {
     std::string caminhoArquivo;
@@ -49,13 +50,23 @@ int main() {
     double upperBoundInicial = solucaoHeuristica.makespan;
     std::cout << "Makespan inicial obtido (Upper Bound): " << upperBoundInicial << "\n";
 
-    // Configura o algoritmo exato
     SolExata solver(instancia, velocidadeDrone, dronesPorEstacao);
+    Solucao melhorSolucao = solucaoHeuristica;
 
-    Solucao melhorSolucao = solucaoHeuristica; 
-
-    // Executa o método resolver passando o Upper Bound da heurística
     bool encontrouSolucao = solver.resolver(melhorSolucao, upperBoundInicial);
+
+    // Normaliza a solução heuristica da base 1 para base 0
+    if (encontrouSolucao) {
+        for (auto& a : melhorSolucao.atendimentoDrones) a.second += 1;
+    } else {
+        for (auto& a : melhorSolucao.atendimentoDrones) a.first -= 1;
+        
+        for (auto& rota : melhorSolucao.rotasCaminhoes) {
+            rota.sequenciaNos.erase(
+                std::remove(rota.sequenciaNos.begin(), rota.sequenciaNos.end(), 0),
+                rota.sequenciaNos.end());
+        }
+    }
 
     if (encontrouSolucao || melhorSolucao.makespan > 0) {
         std::cout << "\n========================================\n";

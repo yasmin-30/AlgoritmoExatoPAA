@@ -15,50 +15,50 @@ Estacao 3: 1, 11, 14, 15, 19, 24
 Estacao 4: 2, 10, 20, 27
 
 === Atribuicoes dos drones ===
-Estacao 4 -> Cliente 1
-Estacao 5 -> Cliente 2
-Estacao 3 -> Cliente 3
-Estacao 2 -> Cliente 4
-Estacao 2 -> Cliente 5
-Estacao 3 -> Cliente 6
-Estacao 3 -> Cliente 7
-Estacao 3 -> Cliente 8
-Estacao 3 -> Cliente 9
-Estacao 5 -> Cliente 10
-Estacao 4 -> Cliente 11
-Estacao 3 -> Cliente 12
-Estacao 3 -> Cliente 13
-Estacao 4 -> Cliente 14
-Estacao 4 -> Cliente 15
-Estacao 2 -> Cliente 16
-Estacao 3 -> Cliente 17
-Estacao 2 -> Cliente 18
-Estacao 4 -> Cliente 19
-Estacao 5 -> Cliente 20
-Estacao 2 -> Cliente 21
-Estacao 3 -> Cliente 22
-Estacao 3 -> Cliente 23
-Estacao 4 -> Cliente 24
-Estacao 2 -> Cliente 25
-Estacao 3 -> Cliente 26
-Estacao 5 -> Cliente 27
-Estacao 3 -> Cliente 28
-Estacao 3 -> Cliente 29
-Estacao 3 -> Cliente 30
+Estacao 3 -> Cliente 1
+Estacao 4 -> Cliente 2
+Estacao 2 -> Cliente 3
+Estacao 1 -> Cliente 4
+Estacao 1 -> Cliente 5
+Estacao 2 -> Cliente 6
+Estacao 2 -> Cliente 7
+Estacao 2 -> Cliente 8
+Estacao 2 -> Cliente 9
+Estacao 4 -> Cliente 10
+Estacao 3 -> Cliente 11
+Estacao 2 -> Cliente 12
+Estacao 2 -> Cliente 13
+Estacao 3 -> Cliente 14
+Estacao 3 -> Cliente 15
+Estacao 1 -> Cliente 16
+Estacao 2 -> Cliente 17
+Estacao 1 -> Cliente 18
+Estacao 3 -> Cliente 19
+Estacao 4 -> Cliente 20
+Estacao 1 -> Cliente 21
+Estacao 2 -> Cliente 22
+Estacao 2 -> Cliente 23
+Estacao 3 -> Cliente 24
+Estacao 1 -> Cliente 25
+Estacao 2 -> Cliente 26
+Estacao 4 -> Cliente 27
+Estacao 2 -> Cliente 28
+Estacao 2 -> Cliente 29
+Estacao 2 -> Cliente 30
 
 === Tempo de atendimento por estacao ===
-Estacao 1: 0.00
-Estacao 2: 508.85
-Estacao 3: 1053.47
-Estacao 4: 1709.07
+Estacao 1: 159.99
+Estacao 2: 245.26
+Estacao 3: 103.09
+Estacao 4: 59.81
 
 === Rotas dos caminhoes ===
 No 0 representa o deposito, nos positivos representam clientes e nos negativos representam estacoes (por exemplo, -1 e a estacao 1).
-Caminhao 1: 0 -> 0 -> -1 -> 0 -> 0 | distancia: 86.59
-Caminhao 2: 0 -> 0 -> -2 -> 0 -> 0 | distancia: 105.03
-Caminhao 3: 0 -> 0 -> -3 -> 0 -> 0 | distancia: 134.38
-Caminhao 4: 0 -> 0 -> -4 -> 0 -> 0 | distancia: 178.95
-Caminhao 5: 0 -> 0 -> 0 -> 0 | distancia: 0.00
+Caminhao 1: 0 -> -1 -> 0 | distancia: 86.59
+Caminhao 2: 0 -> -2 -> 0 | distancia: 105.03
+Caminhao 3: 0 -> -3 -> 0 | distancia: 134.38
+Caminhao 4: 0 -> -4 -> 0 | distancia: 178.95
+Caminhao 5: 0 -> 0 | distancia: 0.00
 
 Makespan: 178.95
 
