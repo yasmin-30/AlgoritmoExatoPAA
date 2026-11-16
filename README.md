@@ -52,6 +52,8 @@ Na pasta raiz do repositório, execute:
 g++ -std=c++17 -O3 src/main.cpp src/leitorArquivos.cpp src/exato/algExato.cpp src/salvarExecExata.cpp src/exato/ramificacoes.cpp src/exato/custos.cpp src/heuristica/heuristica.cpp src/heuristica/execUnica.cpp -I include -I include/heuristica -o mTSP_DS
 ```
 
+Também é possível compilar com `make` no linux e `mingw32-make` no windows, usando o `Makefile` incluído (gera `mTSP_DS.exe`).
+
 ### Executando
 O programa deve ser executado a partir da pasta raiz do repositório, pois usa os caminhos relativos `instancias/` e `resultados/`.
 
