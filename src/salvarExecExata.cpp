@@ -11,7 +11,9 @@ bool salvarDetalhesExecUnica(const std::string& caminhoArquivoInstancia,
                                const Solucao& solucao,
                                double velocidadeDrone,
                                int dronesPorEstacao,
-                               const std::string& pastaSaida) {
+                               const std::string& pastaSaida,
+                               double upperBoundInicial, 
+                               bool timeoutAtingido) {
     
     // Extrai só o nome do arquivo
     int posUltimaBarra = caminhoArquivoInstancia.find_last_of("/\\");
@@ -116,8 +118,11 @@ bool salvarDetalhesExecUnica(const std::string& caminhoArquivoInstancia,
 
     // Makespan final
     arquivo << std::fixed << std::setprecision(2);
+    if (upperBoundInicial >= 0.0) {
+        arquivo << "Upper bound inicial (heuristica): " << upperBoundInicial << "\n";
+    }
     arquivo << "Makespan: " << solucao.makespan << "\n\n";
-
+    
     arquivo.close();
     std::cout << "Relatorio salvo com sucesso em '" << caminhoFinal << "'\n";
     return true;

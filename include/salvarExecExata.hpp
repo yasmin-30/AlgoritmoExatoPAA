@@ -11,6 +11,7 @@ bool salvarDetalhesExecUnica(const std::string& caminhoArquivoInstancia,
                                const Solucao& solucao,
                                double velocidadeDrone,
                                int dronesPorEstacao,
-                               const std::string& pastaSaida = "resultados");
+                               const std::string& pastaSaida = "resultados",
+                               double upperBoundInicial = -1.0);
 
 #endif

@@ -76,7 +76,7 @@ int main() {
         std::cout << "========================================\n";
 
         // Salva o relatorio da instancia
-        salvarDetalhesExecUnica(caminhoArquivo, instancia, melhorSolucao, velocidadeDrone, dronesPorEstacao, "resultados");
+        salvarDetalhesExecUnica(caminhoArquivo, instancia, melhorSolucao, velocidadeDrone, dronesPorEstacao, "resultados", upperBoundInicial);
 
     }
 
