@@ -1,0 +1,42 @@
+=== Informacoes da instancia ===
+Arquivo: instancias\scattered\Y-n20-k9-r8.mtspds
+Deposito: (59.00, 44.00)
+Clientes: 19
+Estacoes: 6
+Caminhoes: 9
+Alcance das estacoes: 8
+Velocidade do drone: 0.50
+Drones por estacao: 2
+
+=== Clientes ao alcance de cada estacao ===
+Estacao 1:
+Estacao 2: 1, 16
+Estacao 3: 12
+Estacao 4: 3, 6, 15
+Estacao 5: 5
+Estacao 6: 4
+
+=== Atribuicoes dos drones ===
+
+=== Tempo de atendimento por estacao ===
+Estacao 1: 0.00
+Estacao 2: 0.00
+Estacao 3: 0.00
+Estacao 4: 0.00
+Estacao 5: 0.00
+Estacao 6: 0.00
+
+=== Rotas dos caminhoes ===
+No 0 representa o deposito, nos positivos representam clientes e nos negativos representam estacoes (por exemplo, -1 e a estacao 1).
+Caminhao 1: 0 -> 5 -> 16 -> 1 -> -2 -> 0 | distancia: 119.51
+Caminhao 2: 0 -> 7 -> 2 -> 9 -> 18 -> 19 -> 0 | distancia: 121.71
+Caminhao 3: 0 -> 6 -> 15 -> 3 -> -4 -> 0 | distancia: 122.06
+Caminhao 4: 0 -> 14 -> 4 -> -6 -> 0 | distancia: 96.30
+Caminhao 5: 0 -> 8 -> 0 | distancia: 122.26
+Caminhao 6: 0 -> 17 -> 10 -> 0 | distancia: 120.17
+Caminhao 7: 0 -> 12 -> 11 -> 0 | distancia: 115.84
+Caminhao 8: 0 -> 13 -> 0 | distancia: 107.63
+
+Upper bound inicial (heuristica): 124.79
+Makespan: 122.26
+

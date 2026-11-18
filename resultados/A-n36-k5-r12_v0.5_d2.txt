@@ -53,5 +53,6 @@ Caminhao 3: 0 -> -4 -> 19 -> 4 -> 0 | distancia: 230.13
 Caminhao 4: 0 -> -1 -> -2 -> 31 -> 0 | distancia: 183.47
 Caminhao 5: 0 -> 16 -> 1 -> 13 -> 0 | distancia: 160.33
 
+Upper bound inicial (heuristica): 230.13
 Makespan: 230.13
 

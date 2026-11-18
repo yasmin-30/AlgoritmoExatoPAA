@@ -1,0 +1,36 @@
+=== Informacoes da instancia ===
+Arquivo: instancias\clustered\X-n16-k6-r16.mtspds
+Deposito: (49.00, 64.00)
+Clientes: 15
+Estacoes: 4
+Caminhoes: 6
+Alcance das estacoes: 16
+Velocidade do drone: 0.50
+Drones por estacao: 3
+
+=== Clientes ao alcance de cada estacao ===
+Estacao 1:
+Estacao 2: 4, 9, 12
+Estacao 3: 3, 7, 10, 13, 15
+Estacao 4:
+
+=== Atribuicoes dos drones ===
+
+=== Tempo de atendimento por estacao ===
+Estacao 1: 0.00
+Estacao 2: 0.00
+Estacao 3: 0.00
+Estacao 4: 0.00
+
+=== Rotas dos caminhoes ===
+No 0 representa o deposito, nos positivos representam clientes e nos negativos representam estacoes (por exemplo, -1 e a estacao 1).
+Caminhao 1: 0 -> 12 -> 9 -> 4 -> 1 -> 0 | distancia: 138.90
+Caminhao 2: 0 -> 7 -> -3 -> 2 -> 0 | distancia: 146.42
+Caminhao 3: 0 -> 14 -> 6 -> 15 -> 13 -> 10 -> 3 -> 0 | distancia: 141.08
+Caminhao 4: 0 -> 5 -> 0 | distancia: 128.89
+Caminhao 5: 0 -> 8 -> 0 | distancia: 146.49
+Caminhao 6: 0 -> 11 -> 0 | distancia: 138.81
+
+Upper bound inicial (heuristica): 184.67
+Makespan: 146.49
+
